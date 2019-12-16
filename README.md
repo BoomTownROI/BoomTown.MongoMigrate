@@ -5,15 +5,15 @@ A .Net library to help manage Mongo migrations. Similar to [migrate-mongo](https
 
 Install BoomTown.MongoMigrate
 
-Create a IChangeSet
+Create an IMigration
 ```c#
-private class SampleMigration : IChangeSet
+private class SampleMigration : IMigration
 {
-    public DateTime ChangeDate() { //Todays Date }
+    public DateTime ChangeDate() { /*Todays Date */ }
 
-    public Task Up(IMongoDatabase database) { // Your Migration }
+    public Task Up(IMongoDatabase database) { /* Your Migration */ }
 
-    public Task Down(IMongoDatabase database) { // How to undo your migration }
+    public Task Down(IMongoDatabase database) { /* How to undo your migration */ }
 }
 ```
 
@@ -28,10 +28,10 @@ await runner.Up();
 
 Check the Status of the migrations
 ```c#
-await _runner.GetAppliedChangeSets();
+await _runner.GetAppliedMigrations();
 ```
 
-If you need to undo your last change
+If you need to undo your last migration
 ```c#
 await _runner.Down()
 ```

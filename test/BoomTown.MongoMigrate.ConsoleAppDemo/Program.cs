@@ -18,17 +18,17 @@ namespace BoomTown.MongoMigrate.ConsoleAppDemo
             var runner = new MongoMigrationsRunner<SampleMigration>(database);
 
             // Run the migrations
-            await runner.Up();
-
-            var changeSets = await runner.GetAppliedChangeSets();
-
-            changeSets.Select(x => $"Name - {x.Name}, Date Created - {x.DateCreated}").ToList()
+            var results = await runner.Up();
+            
+            results.Select(x => $"Name - {x.Name}, Date Created - {x.DateCreated}").ToList()
                 .ForEach(Console.WriteLine);
             
             // Undo the migrations
-            foreach (var unused in changeSets)
+            foreach (var unused in results)
             {
-                await runner.Down();
+                var reverted = await runner.Down();
+
+                Console.WriteLine($"Reverted - {reverted.Name}");
             }
             
             mongoToGo.Dispose();
