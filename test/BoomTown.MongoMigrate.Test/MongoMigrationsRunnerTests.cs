@@ -31,28 +31,36 @@ namespace BoomTown.MongoMigrate.Test
         [Fact]
         public async Task CanMigrateUpAndDown()
         {
-            await _runner.Up();
+            var result = await _runner.Up();
 
             var collections = (await _database.ListCollectionsAsync()).ToList();
-            var changeLogs = await _runner.GetAppliedChangeSets();
             
             // Only the ChangeLog collection should be created
             Assert.Single(collections);
 
             // Assert both change logs ran. 
-            Assert.Equal(2, changeLogs.Count);
+            Assert.Equal(2, result.Count);
             
+            // Run it again to make sure changes are only applied once
+            var secondResult = await _runner.Up();
+            Assert.Empty(secondResult);
+            
+            // Ensure order was applied correctly
+            var changeLogs = await _runner.GetAppliedMigrations();
             Assert.Equal("SampleMigration", changeLogs.First().Name);
             Assert.Equal("SecondaryMigration", changeLogs.Last().Name);
+            
+            var firstRevert = await _runner.Down();
+            var secondRevert = await _runner.Down();
+            var thirdRevert = await _runner.Down();
 
-            for (var i = 0; i < 2; i++)
-            {
-                await _runner.Down();
-            }
+            Assert.Equal("SecondaryMigration", firstRevert.Name);
+            Assert.Equal("SampleMigration", secondRevert.Name);
+            Assert.Null(thirdRevert);
         }
         
         // ReSharper disable once ClassNeverInstantiated.Local
-        private class SampleMigration : IChangeSet
+        private class SampleMigration : IMigration
         {
             public DateTime ChangeDate() { return DateTime.Today; }
 
@@ -62,7 +70,7 @@ namespace BoomTown.MongoMigrate.Test
         }
         
         // ReSharper disable once UnusedMember.Local
-        private class SecondaryMigration : IChangeSet
+        private class SecondaryMigration : IMigration
         {
             public DateTime ChangeDate() { return DateTime.Today.AddDays(1); }
 
