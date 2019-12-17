@@ -5,12 +5,13 @@ using MongoDB.Driver;
 namespace BoomTown.MongoMigrate
 {
     /// <summary>
-    /// The changes that are going to be executed on a Mongo Database. 
+    /// The changes that are going to be executed on a Mongo Database. <br/>
+    /// This class must have a default constructor
     /// </summary>
-    public interface IChangeSet
+    public interface IMigration
     {
         /// <summary>
-        /// Date the ChangeSet was created. The order of the Migrations are based on this value. 
+        /// Date the Migration was created. The order of the Migrations are based on this value. 
         /// </summary>
         /// <returns>A DateTime</returns>
         DateTime ChangeDate();

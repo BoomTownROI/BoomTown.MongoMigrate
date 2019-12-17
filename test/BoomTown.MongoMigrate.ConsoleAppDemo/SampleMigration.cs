@@ -4,7 +4,7 @@ using MongoDB.Driver;
 
 namespace BoomTown.MongoMigrate.ConsoleAppDemo
 {
-    public class SampleMigration : IChangeSet
+    public class SampleMigration : IMigration
     {
         public DateTime ChangeDate()
         {
