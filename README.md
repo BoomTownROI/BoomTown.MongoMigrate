@@ -1,5 +1,6 @@
 # BoomTown.MongoMigrate
-A .Net library to help manage Mongo migrations. Similar to [migrate-mongo](https://github.com/seppevs/migrate-mongo) but with .Net
+A .Net Standard library to help manage Mongo migrations. Similar to [migrate-mongo](https://github.com/seppevs/migrate-mongo) but with .Net
+
 
 ## Getting Started 
 
