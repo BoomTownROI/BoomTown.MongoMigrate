@@ -85,6 +85,20 @@ namespace BoomTown.MongoMigrate
             await _migrationCollection.DeleteOneAsync(x => x.Name == latestChangeLog.Name);
             return new MigrationResult(latestChangeLog.Name, latestChangeLog.DateCreated);
         }
+        
+        /// <summary>
+        /// Undo all the migrations, returning the database to its original fix  
+        /// </summary>
+        /// <returns>A list of the undid migrations</returns>
+        public async Task DownAll()
+        {
+            MigrationResult result;
+
+            do
+            {
+                result = await Down();
+            } while (result != null);
+        }
 
         /// <summary>
         /// Get a list of all the applied Migrations

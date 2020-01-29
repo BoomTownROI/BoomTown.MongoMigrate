@@ -34,5 +34,10 @@ await _runner.GetAppliedMigrations();
 
 If you need to undo your last migration
 ```c#
-await _runner.Down()
+await _runner.Down();
+```
+
+If you need to undo all your migrations
+```c#
+await _runner.DownAll();
 ```
