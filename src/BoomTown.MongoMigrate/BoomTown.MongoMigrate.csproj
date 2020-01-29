@@ -2,8 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <LangVersion>7.1</LangVersion>
+    <Authors>BoomTown</Authors>
+    <Company>BoomTown</Company>
+    <Description>A C# implementation for mongo migrations</Description>
+    <PackageLicenseUrl>https://github.com/BoomTownROI/BoomTown.MongoMigrate/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/BoomTownROI/BoomTown.MongoMigrate</PackageProjectUrl>
+    <PackageTags>migrate-mongo, mongo, migrate, mongo migrate</PackageTags>
+    <PackageIconUrl>https://leads.boomtownroi.com/favicon.ico</PackageIconUrl>
   </PropertyGroup>
+  
   <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="2.9.2" />
   </ItemGroup>

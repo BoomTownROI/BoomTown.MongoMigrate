@@ -24,12 +24,7 @@ namespace BoomTown.MongoMigrate.ConsoleAppDemo
                 .ForEach(Console.WriteLine);
             
             // Undo the migrations
-            foreach (var unused in results)
-            {
-                var reverted = await runner.Down();
-
-                Console.WriteLine($"Reverted - {reverted.Name}");
-            }
+            await runner.DownAll();
             
             mongoToGo.Dispose();
         }
