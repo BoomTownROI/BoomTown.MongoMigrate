@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Mongo2Go;
+using EphemeralMongo;
 using MongoDB.Driver;
 using Xunit;
 
@@ -9,13 +9,13 @@ namespace BoomTown.MongoMigrate.Test
 {
     public class MongoMigrationsRunnerTests : IDisposable
     {
-        private readonly MongoDbRunner _mongo;
+        private readonly IMongoRunner _mongo;
         private readonly MongoMigrationsRunner<SampleMigration> _runner;
         private readonly IMongoDatabase _database;
         
         public MongoMigrationsRunnerTests()
         {
-            _mongo = MongoDbRunner.Start();
+            _mongo = MongoRunner.Run();
             var client = new MongoClient(_mongo.ConnectionString);
             _database = client.GetDatabase("mongo");
 
@@ -24,8 +24,9 @@ namespace BoomTown.MongoMigrate.Test
         
         public void Dispose()
         {
-            if (!_mongo.Disposed)
-                _mongo.Dispose();
+            _mongo?.Dispose();
+            /*if (!_mongo.Disposed)
+                _mongo.Dispose();*/
         }
         
         [Fact]

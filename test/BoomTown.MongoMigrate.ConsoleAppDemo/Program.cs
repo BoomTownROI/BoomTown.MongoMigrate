@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Mongo2Go;
+using EphemeralMongo;
 using MongoDB.Driver;
 
 namespace BoomTown.MongoMigrate.ConsoleAppDemo
@@ -11,8 +11,8 @@ namespace BoomTown.MongoMigrate.ConsoleAppDemo
         static async Task Main()
         {
             // Create an IMongoDatabase, in this case it will just be an in-memory test one.
-            var mongoToGo = MongoDbRunner.Start();
-            var mongoClient = new MongoClient(mongoToGo.ConnectionString);
+            var ephemeralMongo = MongoRunner.Run();
+            var mongoClient = new MongoClient(ephemeralMongo.ConnectionString);
             var database = mongoClient.GetDatabase("NewDatabase");
 
             var runner = new MongoMigrationsRunner<SampleMigration>(database);
@@ -26,7 +26,7 @@ namespace BoomTown.MongoMigrate.ConsoleAppDemo
             // Undo the migrations
             await runner.DownAll();
             
-            mongoToGo.Dispose();
+            ephemeralMongo.Dispose();
         }
     }
 }
